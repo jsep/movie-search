@@ -9,14 +9,16 @@ jobs:
           working-directory: ./src
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - name: Current working directory
-        run: pwd
-      - name: install pnpm
-        run: npm install -g pnpm
-      - name: install dependencies
-        run: pnpm ci
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
       - name: install playwright browsers
         run: npx playwright install --with-deps
-      - name: npm run test:e2e
-        run: npm run test:e2e=
+      - name: pnpm run test:e2e
+        run: pnpm run test:e2e=
