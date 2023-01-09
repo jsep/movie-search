@@ -4,11 +4,14 @@ jobs:
   tests_e2e:
     name: Run end-to-end tests
     runs-on: ubuntu-latest
+    defaults:
+        run:
+          working-directory: ./src
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - name: Change to src dir
-        run: cd src
+      - name: Current working directory
+        run: pwd
       - name: install pnpm
         run: npm install -g pnpm
       - name: install dependencies
