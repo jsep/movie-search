@@ -14,6 +14,7 @@ export default function Home() {
       </Head>
       <main>
         <h1>Movie Search</h1>
+        <p>All your movies in one place</p>
         <input id="search" placeholder="Search" />
       </main>
     </>
