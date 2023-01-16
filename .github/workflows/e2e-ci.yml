@@ -1,8 +1,38 @@
-name: "Tests: E2E"
-on: [pull_request]
-jobs:
-  tests_e2e:
-    name: Run end-to-end tests
+# name: "Tests: E2E"
+# on: [pull_request]
+# jobs:
+#   tests_e2e:
+#     name: Run end-to-end tests
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: ./src
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: pnpm/action-setup@v2
+#         with:
+#           version: 7
+#       - name: Use Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           cache: "pnpm"
+#           cache-dependency-path: src/pnpm-lock.yaml
+#       - name: Install dependencies
+#         run: pnpm install
+#       - name: install playwright browsers
+#         run: npx playwright install --with-deps
+#       - name: pnpm run test:e2e
+#         run: pnpm run test:e2e
+
+
+# We are using Playwright but you may use your E2E framework of choice
+name: Playwright Tests
+
+on:
+  deployment_status: 
+    
+  run-e2es:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,3 +53,5 @@ jobs:
         run: npx playwright install --with-deps
       - name: pnpm run test:e2e
         run: pnpm run test:e2e
+          env:
+              BASE_URL: ${{ github.event.deployment_status.target_url }}
